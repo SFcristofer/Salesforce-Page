@@ -2,10 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi Página de Prueba</title>
+  <title>Mi Página con Embedded Messaging</title>
 </head>
 <body>
   <h1>Hola, GitHub Pages 👋</h1>
-  <p>Esto es una prueba.</p>
+  <p>Esto es una prueba con Salesforce Embedded Messaging.</p>
+
+  <!-- Aquí se cargará el chat de Salesforce -->
+  
+  <script type='text/javascript'>
+    function initEmbeddedMessaging() {
+      try {
+        embeddedservice_bootstrap.settings.language = 'es_MX'; // Español de México
+        embeddedservice_bootstrap.init(
+          '00DKU0000008jFo', // Tu orgId
+          'Prueba',          // Nombre de tu deployment
+          'https://crossborderxpressmx--dev.sandbox.my.site.com/ESWPrueba1757957574632',
+          {
+            scrt2URL: 'https://crossborderxpressmx--dev.sandbox.my.salesforce-scrt.com'
+          }
+        );
+      } catch (err) {
+        console.error('Error loading Embedded Messaging: ', err);
+      }
+    };
+  </script>
+
+  <!-- Script de Salesforce que llama a initEmbeddedMessaging -->
+  <script type='text/javascript'
+    src='https://crossborderxpressmx--dev.sandbox.my.site.com/ESWPrueba1757957574632/assets/js/bootstrap.min.js'
+    onload='initEmbeddedMessaging()'>
+  </script>
 </body>
 </html>
