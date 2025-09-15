@@ -2,21 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi Página con Chatbot Salesforce</title>
+  <title>Página de Pruebas con Salesforce Chatbots</title>
+
+  <!-- Estilos para el botón del chatbot clásico -->
+  <style type='text/css'>
+    .embeddedServiceHelpButton .helpButton .uiButton {
+      background-color: #005290;
+      font-family: "Arial", sans-serif;
+    }
+    .embeddedServiceHelpButton .helpButton .uiButton:focus {
+      outline: 1px solid #005290;
+    }
+  </style>
 </head>
 <body>
   <h1>Hola, GitHub Pages 👋</h1>
-  <p>Esto es una prueba con el nuevo chatbot Embedded Messaging.</p>
+  <p>Esta es una página de prueba con <b>dos chatbots de Salesforce</b>:</p>
+  <ul>
+    <li>👉 <b>Embedded Messaging</b> (nuevo).</li>
+    <li>👉 <b>Live Agent clásico</b> con botón flotante.</li>
+  </ul>
 
-  <!-- Script del nuevo chatbot -->
+  <!-- ========== CHATBOT 1: Embedded Messaging ========== -->
   <script type='text/javascript'>
     function initEmbeddedMessaging() {
       try {
-        embeddedservice_bootstrap.settings.language = 'es_MX'; // Español de México
+        embeddedservice_bootstrap.settings.language = 'es_MX'; // Español México
 
         embeddedservice_bootstrap.init(
-          '00DKU0000008jFo', // orgId
-          'Messaging',       // Nombre de tu deployment
+          '00DKU0000008jFo', // Org ID
+          'Messaging',       // Deployment Name
           'https://crossborderxpressmx--dev.sandbox.my.site.com/ESWMessagin1756154612447',
           {
             scrt2URL: 'https://crossborderxpressmx--dev.sandbox.my.salesforce-scrt.com'
@@ -27,10 +42,46 @@
       }
     };
   </script>
-
   <script type='text/javascript'
     src='https://crossborderxpressmx--dev.sandbox.my.site.com/ESWMessagin1756154612447/assets/js/bootstrap.min.js'
     onload='initEmbeddedMessaging()'>
+  </script>
+
+  <!-- ========== CHATBOT 2: Live Agent clásico (ESW) ========== -->
+  <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+  <script type='text/javascript'>
+    var initESW = function(gslbBaseURL) {
+      embedded_svc.settings.displayHelpButton = true; 
+      embedded_svc.settings.language = 'es'; // Ajusta si quieres es-MX
+
+      embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+      embedded_svc.settings.entryFeature = 'LiveAgent';
+
+      embedded_svc.init(
+        'https://crossborderxpressmx--dev.sandbox.my.salesforce.com',
+        'https://crossborderxpressmx--dev.sandbox.my.site.com/ESWPrueba1757957574632vforcesite',
+        gslbBaseURL,
+        '00DKU0000008jFo',   // Org ID
+        'Agentes_CBX',       // Deployment Name
+        {
+          baseLiveAgentContentURL: 'https://c.la2-c1cs-ia7.salesforceliveagent.com/content',
+          deploymentId: '572KU000000KzDg',
+          buttonId: '573KU000000KyuN',
+          baseLiveAgentURL: 'https://d.la2-c1cs-ia7.salesforceliveagent.com/chat',
+          eswLiveAgentDevName: 'Agentes_CBX',
+          isOfflineSupportEnabled: false
+        }
+      );
+    };
+
+    if (!window.embedded_svc) {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://crossborderxpressmx--dev.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+      s.onload = function() { initESW(null); };
+      document.body.appendChild(s);
+    } else {
+      initESW('https://service.force.com');
+    }
   </script>
 </body>
 </html>
