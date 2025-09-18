@@ -47,41 +47,5 @@
     onload='initEmbeddedMessaging()'>
   </script>
 
-  <!-- ========== CHATBOT 2: Live Agent clásico (ESW) ========== -->
-  <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
-  <script type='text/javascript'>
-    var initESW = function(gslbBaseURL) {
-      embedded_svc.settings.displayHelpButton = true; 
-      embedded_svc.settings.language = 'es'; // Ajusta si quieres es-MX
-
-      embedded_svc.settings.enabledFeatures = ['LiveAgent'];
-      embedded_svc.settings.entryFeature = 'LiveAgent';
-
-      embedded_svc.init(
-        'https://crossborderxpressmx--dev.sandbox.my.salesforce.com',
-        'https://crossborderxpressmx--dev.sandbox.my.site.com/ESWPrueba1757957574632vforcesite',
-        gslbBaseURL,
-        '00DKU0000008jFo',   // Org ID
-        'Agentes_CBX',       // Deployment Name
-        {
-          baseLiveAgentContentURL: 'https://c.la2-c1cs-ia7.salesforceliveagent.com/content',
-          deploymentId: '572KU000000KzDg',
-          buttonId: '573KU000000KyuN',
-          baseLiveAgentURL: 'https://d.la2-c1cs-ia7.salesforceliveagent.com/chat',
-          eswLiveAgentDevName: 'Agentes_CBX',
-          isOfflineSupportEnabled: false
-        }
-      );
-    };
-
-    if (!window.embedded_svc) {
-      var s = document.createElement('script');
-      s.setAttribute('src', 'https://crossborderxpressmx--dev.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
-      s.onload = function() { initESW(null); };
-      document.body.appendChild(s);
-    } else {
-      initESW('https://service.force.com');
-    }
-  </script>
 </body>
 </html>
