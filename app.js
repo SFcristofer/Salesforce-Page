@@ -49,6 +49,7 @@ async function fetchFaqData() {
             throw new Error(`Error de red: ${response.statusText}`);
         }
         faqData = await response.json();
+        console.log('Datos recibidos de la API:', faqData); // DEBUG
         
         // Una vez que tenemos los datos, poblamos el primer menú.
         // NOTA: 'es' está fijo por ahora, pero podría hacerse dinámico (ej. detectar el idioma del navegador).
