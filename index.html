@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Página de Pruebas con Salesforce Chatbots</title>
-
   <!-- Estilos para el botón del chatbot clásico -->
   <style type='text/css'>
     .embeddedServiceHelpButton .helpButton .uiButton {
@@ -16,19 +15,24 @@
   </style>
 </head>
 <body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Chatbots</a></li>
+      <li><a href="web-to-case.html">Web-to-Case</a></li>
+    </ul>
+  </nav>
+  <hr>
   <h1>Hola, GitHub Pages 👋</h1>
   <p>Esta es una página de prueba con <b>dos chatbots de Salesforce</b>:</p>
   <ul>
     <li>👉 <b>Embedded Messaging</b> (nuevo).</li>
     <li>👉 <b>Live Agent clásico</b> con botón flotante.</li>
   </ul>
-
   <!-- ========== CHATBOT 1: Embedded Messaging ========== -->
   <script type='text/javascript'>
     function initEmbeddedMessaging() {
       try {
         embeddedservice_bootstrap.settings.language = 'es_MX'; // Español México
-
         embeddedservice_bootstrap.init(
           '00DKU0000008jFo', // Org ID
           'Messaging',       // Deployment Name
@@ -46,6 +50,5 @@
     src='https://crossborderxpressmx--dev.sandbox.my.site.com/ESWMessagin1756154612447/assets/js/bootstrap.min.js'
     onload='initEmbeddedMessaging()'>
   </script>
-
 </body>
 </html>

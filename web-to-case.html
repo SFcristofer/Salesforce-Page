@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <title>Formulario de Soporte Dinámico</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        label { display: inline-block; width: 180px; margin-top: 10px; }
+        input[type="text"], select, textarea { width: 250px; padding: 5px; }
+        #recommendation-box { margin-top: 10px; margin-bottom: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; }
+    </style>
+</head>
+<body>
+
+    <h1>Formulario de Contacto</h1>
+    <p>Por favor, completa el siguiente formulario para ayudarnos a resolver tu duda.</p>
+
+    <form action="https://crossborderxpressmx--dev.sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKU0000008jFo" method="POST">
+
+        <input type="hidden" name="orgid" value="00DKU0000008jFo">
+        <input type="hidden" name="retURL" value="http://tu-pagina-de-gracias.com">
+
+        <label for="name">Nombre del contacto:</label>
+        <input id="name" maxlength="80" name="name" size="20" type="text" required><br>
+
+        <label for="email">Email:</label>
+        <input id="email" maxlength="80" name="email" size="20" type="text" required><br>
+
+        <label for="phone">Teléfono:</label>
+        <input id="phone" maxlength="40" name="phone" size="20" type="text"><br>
+
+        <label for="category-select">Categoría:</label>
+        <select id="category-select" name="00NKU000005nCbF">
+            <option value="">Cargando...</option>
+        </select><br>
+
+        <div id="recommendation-box"></div>
+
+        <label for="question-select">Pregunta Específica:</label>
+        <select id="question-select" name="00NKU000005nCbK">
+            <option value="">Selecciona una categoría primero</option>
+        </select><br>
+
+        <label for="subject">Asunto:</label>
+        <input id="subject" maxlength="80" name="subject" size="20" type="text" required><br>
+
+        <label for="description">Descripción:</label><br>
+        <textarea name="description" style="width: 440px; height: 100px;"></textarea><br>
+
+        <label for="00NKU000005nBRL">Los 4 ultimos digitos:</label>
+        <input id="00NKU000005nBRL" maxlength="18" name="00NKU000005nBRL" size="20" type="text"><br>
+
+        <label for="00NKU000005nBRQ">Fecha de compra:</label>
+        <input id="00NKU000005nBRQ" name="00NKU000005nBRQ" size="12" type="text"><br> <label for="00NKU000005nBRu">Codigo postal:</label>
+        <input id="00NKU000005nBRu" maxlength="255" name="00NKU000005nBRu" size="20" type="text"><br>
+        
+        <label for="00NKU000005nCbZ">Numero de boleto:</label>
+        <input id="00NKU000005nCbZ" maxlength="255" name="00NKU000005nCbZ" size="20" type="text"><br>
+
+        <label for="00NKU000005nCbe">Número de reservación:</label>
+        <input id="00NKU000005nCbe" maxlength="255" name="00NKU000005nCbe" size="20" type="text"><br>
+
+        <label for="00NKU000005nCbf">Fecha de viaje:</label>
+        <input id="00NKU000005nCbf" name="00NKU000005nCbf" size="12" type="text"><br> <label for="00NKU000005nCbj">RFC:</label>
+        <input id="00NKU000005nCbj" maxlength="255" name="00NKU000005nCbj" size="20" type="text"><br>
+
+        <label for="00NKU000005nCbo">Nombre o Razón Social:</label>
+        <input id="00NKU000005nCbo" maxlength="255" name="00NKU000005nCbo" size="20" type="text"><br>
+
+        <br>
+        <input type="submit" name="submit" value="Enviar Caso">
+    </form>
+
+    <script src="app.js" defer></script>
+
+</body>
+</html>
