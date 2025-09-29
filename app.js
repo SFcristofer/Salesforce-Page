@@ -1,6 +1,6 @@
 // --- CONFIGURACIÓN ---
 // ¡IMPORTANTE! Pega aquí la URL de la API que te dio el administrador de Salesforce.
-const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ'; 
+const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.salesforce-sites.com/apipublica/services/apexrest/PreguntasFAQ'; 
 
 let faqData = {}; // Variable para guardar los datos de Salesforce
 
