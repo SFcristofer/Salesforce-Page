@@ -52,7 +52,7 @@ async function fetchFaqData() {
         
         // Una vez que tenemos los datos, poblamos el primer menú.
         // NOTA: 'es' está fijo por ahora, pero podría hacerse dinámico (ej. detectar el idioma del navegador).
-        populateCategories('es'); 
+        populateCategories('en'); 
     } catch (error) {
         console.error("Error crítico al cargar datos de Salesforce:", error);
         categorySelect.innerHTML = '<option value="">Error al cargar categorías</option>';
@@ -81,7 +81,7 @@ function populateCategories(lang) {
  */
 function handleCategoryChange() {
     const selectedCategory = categorySelect.value;
-    const lang = 'es'; // Idioma fijo por ahora.
+    const lang = 'en'; // Idioma fijo por ahora.
 
     if (selectedCategory && faqData[lang] && faqData[lang][selectedCategory]) {
         const categoryData = faqData[lang][selectedCategory];
