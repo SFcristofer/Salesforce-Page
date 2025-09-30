@@ -1,56 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <title>Formulario de Soporte Dinámico</title>
+    <meta charset="UTF-8">
+    <title>Prueba de API en Vivo</title>
     <style>
         body { font-family: sans-serif; margin: 2em; max-width: 600px; }
-        label { display: inline-block; width: 180px; margin-top: 12px; vertical-align: top; }
-        input[type="text"], select, textarea { width: 300px; padding: 5px; box-sizing: border-box; }
-        textarea { height: 100px; }
-        #recommendation-box { margin-left: 180px; margin-top: 5px; margin-bottom: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; max-width: 300px; min-height: 20px;}
-        input[type="submit"] { margin-top: 20px; margin-left: 180px; padding: 10px 20px; cursor: pointer; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        select { width: 100%; padding: 8px; margin-top: 5px; }
+        #recommendation-box { margin-top: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; min-height: 20px; }
     </style>
 </head>
 <body>
 
-    <h1>Formulario de Contacto</h1>
-    <p>Por favor, completa el siguiente formulario para ayudarnos a resolver tu duda.</p>
+    <h1>Prueba de Conexión a API de Salesforce</h1>
+    <p>Este formulario intenta conectarse a la API en vivo y poblar los menús.</p>
 
-    <form action="https://crossborderxpressmx--dev.sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKU0000008jFo" method="POST">
+    <label for="category-select">Categoría:</label>
+    <select id="category-select">
+        <option value="">Llamando a Salesforce...</option>
+    </select>
 
-        <input type="hidden" name="orgid" value="00DKU0000008jFo">
-        <input type="hidden" name="retURL" value="http://tu-pagina-de-gracias.com"> <label for="name">Nombre del contacto:</label>
-        <input id="name" maxlength="80" name="name" size="20" type="text" required><br>
+    <div id="recommendation-box"></div>
 
-        <label for="email">Email:</label>
-        <input id="email" maxlength="80" name="email" size="20" type="text" required><br>
+    <label for="question-select">Pregunta Específica:</label>
+    <select id="question-select">
+        <option value="">Selecciona una categoría primero</option>
+    </select>
 
-        <label for="phone">Teléfono:</label>
-        <input id="phone" maxlength="40" name="phone" size="20" type="text"><br>
+<script>
+    // --- CONFIGURACIÓN ---
+    // Esta es la URL real de tu API de Salesforce.
+    const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
 
-        <label for="category-select">Categoría:</label>
-        <select id="category-select" name="00NKU000005nCbF">
-            <option value="">Cargando...</option>
-        </select><br>
+    let faqData = {}; // Variable para guardar los datos
 
-        <div id="recommendation-box"></div>
+    // --- REFERENCIAS A ELEMENTOS DEL HTML ---
+    const categorySelect = document.getElementById('category-select');
+    const questionSelect = document.getElementById('question-select');
+    const recommendationBox = document.getElementById('recommendation-box');
 
-        <label for="question-select">Pregunta Específica:</label>
-        <select id="question-select" name="00NKU000005nCbK">
-            <option value="">Selecciona una categoría primero</option>
-        </select><br>
-        <label for="subject">Asunto:</label>
-        <input id="subject" maxlength="80" name="subject" size="20" type="text" required><br>
+    // --- LÓGICA PRINCIPAL ---
+    document.addEventListener('DOMContentLoaded', fetchFaqData);
+    categorySelect.addEventListener('change', handleCategoryChange);
 
-        <label for="description">Descripción:</label>
-        <textarea id="description" name="description"></textarea><br>
-        
-        <br>
-        <input type="submit" name="submit" value="Enviar Caso">
-    </form>
+    // --- FUNCIONES ---
+    async function fetchFaqData() {
+        console.log("Intentando llamar a la API en:", apiUrl);
+        try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`Error de red: ${response.status} ${response.statusText}`);
+            }
+            faqData = await response.json();
+            console.log("¡Éxito! Datos recibidos:", faqData);
+            populateCategories('es');
+        } catch (error) {
+            console.error("ERROR CRÍTICO AL LLAMAR A LA API:", error);
+            categorySelect.innerHTML = '<option value="">Fallo la conexión a la API</option>';
+            alert("No se pudo conectar a Salesforce. Revisa la consola (F12) para ver el error de CORS.");
+        }
+    }
 
-    <script src="app.js" defer></script>
+    function populateCategories(lang) {
+        console.log("Poblando categorías...");
+        categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
+        const categories = faqData[lang];
+        for (const categoryName in categories) {
+            const option = document.createElement('option');
+            option.value = categoryName;
+            option.textContent = categoryName;
+            categorySelect.appendChild(option);
+        }
+        console.log("Categorías pobladas.");
+    }
 
+    function handleCategoryChange() {
+        const selectedCategory = categorySelect.value;
+        const lang = 'es';
+        if (selectedCategory && faqData[lang] && faqData[lang][selectedCategory]) {
+            const categoryData = faqData[lang][selectedCategory];
+            displayRecommendation(categoryData.recommendation);
+            populateQuestions(categoryData.questions);
+        } else {
+            displayRecommendation('');
+            populateQuestions([]);
+        }
+    }
+
+    function displayRecommendation(text) {
+        recommendationBox.textContent = text || '';
+    }
+
+    function populateQuestions(questions) {
+        questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
+        if (questions && questions.length > 0) {
+            questions.forEach(q => {
+                const option = document.createElement('option');
+                option.value = q.question;
+                option.textContent = q.question;
+                questionSelect.appendChild(option);
+            });
+        }
+    }
+</script>
 </body>
 </html>
