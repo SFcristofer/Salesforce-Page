@@ -2,30 +2,160 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Ejemplo de Soporte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Creación de Casos con Imagen</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 20px; background-color: #0070d2; color: white; border: none; cursor: pointer; }
+        #status-message { margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; }
+    </style>
 </head>
 <body>
 
-    <h1>Formulario de Soporte</h1>
-    
-    <form id="support-form">
-        <label for="name">Nombre:</label><br>
-        <input type="text" id="name" required><br><br>
+    <h1>Formulario de Contacto</h1>
+    <p>Por favor, llena los campos para crear un caso de soporte. Puedes adjuntar una imagen si lo deseas.</p>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" required><br><br>
+    <form id="support-form">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+        </div>
         
-        <label for="subject">Asunto:</label><br>
-        <input type="text" id="subject" required><br><br>
-        
-        <label for="file-attachment">Adjuntar Imagen (Opcional):</label><br>
-        <input type="file" id="file-attachment" accept="image/*,application/pdf"><br><br>
+        <div class="form-group">
+            <label for="phone">Teléfono:</label>
+            <input type="tel" id="phone">
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Asunto:</label>
+            <input type="text" id="subject" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <textarea id="description" rows="5"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="categoria">Categoría Seleccionada:</label>
+            <input type="text" id="categoria">
+        </div>
+        <div class="form-group">
+            <label for="preguntaEspecifica">Pregunta Específica:</label>
+            <input type="text" id="preguntaEspecifica">
+        </div>
+        <div class="form-group">
+            <label for="ultimos4Digitos">4 Últimos Dígitos:</label>
+            <input type="text" id="ultimos4Digitos">
+        </div>
+        <div class="form-group">
+            <label for="file-attachment">Adjuntar Imagen (Opcional):</label>
+            <input type="file" id="file-attachment" accept="image/*,application/pdf">
+        </div>
 
         <button type="submit" id="submit-button">Enviar Caso</button>
     </form>
 
     <div id="status-message"></div>
 
-    <script src="app.js"></script>
+    <script>
+        // ¡IMPORTANTE! Reemplaza esta URL con la URL de tu API de Salesforce
+        const API_URL = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/TechWebCase';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const supportForm = document.getElementById('support-form');
+            const submitButton = document.getElementById('submit-button');
+            const statusMessage = document.getElementById('status-message');
+
+            supportForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                submitButton.disabled = true;
+                statusMessage.textContent = 'Enviando, por favor espera...';
+                statusMessage.style.color = 'black';
+
+                // Recolectar datos del formulario
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    subject: document.getElementById('subject').value,
+                    description: document.getElementById('description').value,
+                    categoria: document.getElementById('categoria').value,
+                    preguntaEspecifica: document.getElementById('preguntaEspecifica').value,
+                    ultimos4Digitos: document.getElementById('ultimos4Digitos').value,
+                    // ... mapea aquí el resto de tus campos personalizados ...
+                    fileName: null,
+                    fileBodyBase64: null
+                };
+
+                // Procesar el archivo si fue seleccionado
+                const fileInput = document.getElementById('file-attachment');
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    formData.fileName = file.name;
+                    
+                    try {
+                        formData.fileBodyBase64 = await toBase64(file);
+                    } catch (error) {
+                        statusMessage.textContent = 'Error al leer el archivo. Inténtalo de nuevo.';
+                        statusMessage.style.color = 'red';
+                        submitButton.disabled = false;
+                        return;
+                    }
+                }
+                
+                // Llamar a la API de Salesforce
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.status === 'success') {
+                        statusMessage.textContent = `✅ ¡Caso creado con éxito! Número de caso: ${result.caseNumber}.`;
+                        statusMessage.style.color = 'green';
+                        supportForm.reset();
+                    } else {
+                        statusMessage.textContent = `❌ Error: ${result.message}`;
+                        statusMessage.style.color = 'red';
+                        console.error('Error de Salesforce:', result.message);
+                    }
+
+                } catch (error) {
+                    statusMessage.textContent = '❌ Error de conexión. Por favor, revisa la URL de la API y tu conexión a internet.';
+                    statusMessage.style.color = 'red';
+                    console.error('Error en la llamada a la API:', error);
+                } finally {
+                    submitButton.disabled = false;
+                }
+            });
+
+            // Función auxiliar para convertir un archivo a Base64
+            const toBase64 = file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+                    resolve(encoded);
+                };
+                reader.onerror = error => reject(error);
+            });
+        });
+    </script>
+
 </body>
 </html>
