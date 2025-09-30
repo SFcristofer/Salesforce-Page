@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Prueba de API en Vivo (Versión Actualizada)</title>
+    <title>Prueba de API Final</title>
     <style>
         body { font-family: sans-serif; margin: 2em; max-width: 600px; }
         label { display: block; margin-top: 15px; font-weight: bold; }
@@ -11,78 +11,63 @@
     </style>
 </head>
 <body>
-
-    <h1>Prueba de Conexión a API de Salesforce</h1>
-    <p>Este formulario usa la nueva estructura de datos (lista de objetos) para poblar los menús.</p>
-
+    <h1>Prueba de Conexión Final</h1>
     <label for="category-select">Categoría:</label>
-    <select id="category-select">
-        <option value="">Llamando a Salesforce...</option>
-    </select>
-
+    <select id="category-select"><option value="">Llamando a Salesforce...</option></select>
     <div id="recommendation-box"></div>
-
     <label for="question-select">Pregunta Específica:</label>
-    <select id="question-select">
-        <option value="">Selecciona una categoría primero</option>
-    </select>
+    <select id="question-select"><option value="">Selecciona una categoría primero</option></select>
 
 <script>
-    // --- CONFIGURACIÓN ---
     const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
     let faqData = {};
 
-    // --- REFERENCIAS A ELEMENTOS DEL HTML ---
     const categorySelect = document.getElementById('category-select');
     const questionSelect = document.getElementById('question-select');
     const recommendationBox = document.getElementById('recommendation-box');
 
-    // --- LÓGICA PRINCIPAL (ACTUALIZADA) ---
     document.addEventListener('DOMContentLoaded', fetchFaqData);
     categorySelect.addEventListener('change', handleCategoryChange);
 
-    // --- FUNCIONES (ACTUALIZADAS) ---
     async function fetchFaqData() {
-        console.log("Intentando llamar a la API en:", apiUrl);
         try {
             const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error(`Error de red: ${response.status} ${response.statusText}`);
+            if (!response.ok) throw new Error(`Error de red: ${response.status}`);
             
+            // MÉTODO ROBUSTO: Leer como texto y convertir manualmente
             const responseText = await response.text();
             faqData = JSON.parse(responseText);
 
-            console.log("¡Éxito! Datos recibidos:", faqData);
             populateCategories('es');
         } catch (error) {
-            console.error("ERROR CRÍTICO AL LLAMAR A LA API:", error);
-            categorySelect.innerHTML = '<option value="">Fallo la conexión a la API</option>';
-            alert("No se pudo conectar a Salesforce. Revisa la consola (F12) para ver el error de CORS.");
+            console.error("ERROR CRÍTICO:", error);
+            categorySelect.innerHTML = '<option value="">Fallo la conexión o el procesamiento</option>';
+            alert("Hubo un error. Revisa la consola (F12).");
         }
     }
 
-    // ACTUALIZADO: Esta función ahora recorre una lista (array).
     function populateCategories(lang) {
-        console.log("Poblando categorías desde la lista...");
         categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
-        const categoriesList = faqData[lang];
+        const categoriesList = faqData[lang]; // La llave es 'es' o 'en'
         
+        if (!categoriesList) {
+            console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos recibidos.", faqData);
+            return;
+        }
+
         categoriesList.forEach(category => {
             const option = document.createElement('option');
             option.value = category.categoryName;
             option.textContent = category.categoryName;
             categorySelect.appendChild(option);
         });
-        console.log("Categorías pobladas.");
     }
 
-    // ACTUALIZADO: Esta función ahora busca en la lista (array).
     function handleCategoryChange() {
         const selectedCategoryName = categorySelect.value;
         const lang = 'es';
-
         if (selectedCategoryName) {
-            const categoryData = faqData[lang].find(category => category.categoryName === selectedCategoryName);
-            
+            const categoryData = faqData[lang].find(cat => cat.categoryName === selectedCategoryName);
             if (categoryData) {
                 displayRecommendation(categoryData.recommendation);
                 populateQuestions(categoryData.questions);
@@ -109,6 +94,5 @@
         }
     }
 </script>
-
 </body>
 </html>
