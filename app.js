@@ -30,7 +30,6 @@ function populateCategories(lang) {
     categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
     const categories = faqData[lang];
     
-    // Este bucle ahora debería funcionar porque el objeto 'categories' será correcto.
     for (const categoryName in categories) {
         const option = document.createElement('option');
         option.value = categoryName;
