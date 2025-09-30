@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Creación de Casos con Imagen</title>
+    <title>Formulario de Creación de Casos (Rápido)</title>
     <style>
         body { font-family: sans-serif; padding: 20px; }
         .form-group { margin-bottom: 15px; }
@@ -16,7 +16,7 @@
 <body>
 
     <h1>Formulario de Contacto</h1>
-    <p>Por favor, llena los campos para crear un caso de soporte. Puedes adjuntar una imagen si lo deseas.</p>
+    <p>Por favor, llena los campos para crear un caso de soporte.</p>
 
     <form id="support-form">
         <div class="form-group">
@@ -30,61 +30,10 @@
         </div>
         
         <div class="form-group">
-            <label for="phone">Teléfono:</label>
-            <input type="tel" id="phone">
-        </div>
-
-        <div class="form-group">
             <label for="subject">Asunto:</label>
             <input type="text" id="subject" required>
         </div>
 
-        <div class="form-group">
-            <label for="description">Descripción:</label>
-            <textarea id="description" rows="5"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="categoria">Categoría Seleccionada:</label>
-            <input type="text" id="categoria">
-        </div>
-        <div class="form-group">
-            <label for="preguntaEspecifica">Pregunta Específica:</label>
-            <input type="text" id="preguntaEspecifica">
-        </div>
-        <div class="form-group">
-            <label for="ultimos4Digitos">4 Últimos Dígitos:</label>
-            <input type="text" id="ultimos4Digitos">
-        </div>
-        <div class="form-group">
-            <label for="fechaCompra">Fecha de Compra:</label>
-            <input type="date" id="fechaCompra">
-        </div>
-        <div class="form-group">
-            <label for="codigoPostal">Código Postal:</label>
-            <input type="text" id="codigoPostal">
-        </div>
-        <div class="form-group">
-            <label for="numeroDeBoleto">Número de Boleto:</label>
-            <input type="text" id="numeroDeBoleto">
-        </div>
-        <div class="form-group">
-            <label for="numeroDeReservacion">Número de Reservación:</label>
-            <input type="text" id="numeroDeReservacion">
-        </div>
-        <div class="form-group">
-            <label for="fechaDeViaje">Fecha de Viaje:</label>
-            <input type="date" id="fechaDeViaje">
-        </div>
-        <div class="form-group">
-            <label for="rfc">RFC:</label>
-            <input type="text" id="rfc">
-        </div>
-        <div class="form-group">
-            <label for="razonSocial">Razón Social:</label>
-            <input type="text" id="razonSocial">
-        </div>
-        
         <div class="form-group">
             <label for="file-attachment">Adjuntar Imagen (Opcional):</label>
             <input type="file" id="file-attachment" accept="image/*,application/pdf">
@@ -113,19 +62,22 @@
                 const formData = {
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
                     subject: document.getElementById('subject').value,
-                    description: document.getElementById('description').value,
-                    categoria: document.getElementById('categoria').value,
-                    preguntaEspecifica: document.getElementById('preguntaEspecifica').value,
-                    ultimos4Digitos: document.getElementById('ultimos4Digitos').value,
-                    fechaCompra: document.getElementById('fechaCompra').value,
-                    codigoPostal: document.getElementById('codigoPostal').value,
-                    numeroDeBoleto: document.getElementById('numeroDeBoleto').value,
-                    numeroDeReservacion: document.getElementById('numeroDeReservacion').value,
-                    fechaDeViaje: document.getElementById('fechaDeViaje').value,
-                    rfc: document.getElementById('rfc').value,
-                    razonSocial: document.getElementById('razonSocial').value,
+                    
+                    // Solo incluimos los campos obligatorios del HTML
+                    phone: null,
+                    description: null,
+                    categoria: null,
+                    preguntaEspecifica: null,
+                    ultimos4Digitos: null,
+                    fechaCompra: null,
+                    codigoPostal: null,
+                    numeroDeBoleto: null,
+                    numeroDeReservacion: null,
+                    fechaDeViaje: null,
+                    rfc: null,
+                    razonSocial: null,
+
                     fileName: null,
                     fileBodyBase64: null
                 };
