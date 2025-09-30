@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Prueba de API en Vivo</title>
+    <title>Prueba de API en Vivo (Versión Actualizada)</title>
     <style>
         body { font-family: sans-serif; margin: 2em; max-width: 600px; }
         label { display: block; margin-top: 15px; font-weight: bold; }
@@ -13,7 +13,7 @@
 <body>
 
     <h1>Prueba de Conexión a API de Salesforce</h1>
-    <p>Este formulario intenta conectarse a la API en vivo y poblar los menús.</p>
+    <p>Este formulario usa la nueva estructura de datos (lista de objetos) para poblar los menús.</p>
 
     <label for="category-select">Categoría:</label>
     <select id="category-select">
@@ -29,29 +29,28 @@
 
 <script>
     // --- CONFIGURACIÓN ---
-    // Esta es la URL real de tu API de Salesforce.
     const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
-
-    let faqData = {}; // Variable para guardar los datos
+    let faqData = {};
 
     // --- REFERENCIAS A ELEMENTOS DEL HTML ---
     const categorySelect = document.getElementById('category-select');
     const questionSelect = document.getElementById('question-select');
     const recommendationBox = document.getElementById('recommendation-box');
 
-    // --- LÓGICA PRINCIPAL ---
+    // --- LÓGICA PRINCIPAL (ACTUALIZADA) ---
     document.addEventListener('DOMContentLoaded', fetchFaqData);
     categorySelect.addEventListener('change', handleCategoryChange);
 
-    // --- FUNCIONES ---
+    // --- FUNCIONES (ACTUALIZADAS) ---
     async function fetchFaqData() {
         console.log("Intentando llamar a la API en:", apiUrl);
         try {
             const response = await fetch(apiUrl);
-            if (!response.ok) {
-                throw new Error(`Error de red: ${response.status} ${response.statusText}`);
-            }
-            faqData = await response.json();
+            if (!response.ok) throw new Error(`Error de red: ${response.status} ${response.statusText}`);
+            
+            const responseText = await response.text();
+            faqData = JSON.parse(responseText);
+
             console.log("¡Éxito! Datos recibidos:", faqData);
             populateCategories('es');
         } catch (error) {
@@ -61,26 +60,33 @@
         }
     }
 
+    // ACTUALIZADO: Esta función ahora recorre una lista (array).
     function populateCategories(lang) {
-        console.log("Poblando categorías...");
+        console.log("Poblando categorías desde la lista...");
         categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
-        const categories = faqData[lang];
-        for (const categoryName in categories) {
+        const categoriesList = faqData[lang];
+        
+        categoriesList.forEach(category => {
             const option = document.createElement('option');
-            option.value = categoryName;
-            option.textContent = categoryName;
+            option.value = category.categoryName;
+            option.textContent = category.categoryName;
             categorySelect.appendChild(option);
-        }
+        });
         console.log("Categorías pobladas.");
     }
 
+    // ACTUALIZADO: Esta función ahora busca en la lista (array).
     function handleCategoryChange() {
-        const selectedCategory = categorySelect.value;
+        const selectedCategoryName = categorySelect.value;
         const lang = 'es';
-        if (selectedCategory && faqData[lang] && faqData[lang][selectedCategory]) {
-            const categoryData = faqData[lang][selectedCategory];
-            displayRecommendation(categoryData.recommendation);
-            populateQuestions(categoryData.questions);
+
+        if (selectedCategoryName) {
+            const categoryData = faqData[lang].find(category => category.categoryName === selectedCategoryName);
+            
+            if (categoryData) {
+                displayRecommendation(categoryData.recommendation);
+                populateQuestions(categoryData.questions);
+            }
         } else {
             displayRecommendation('');
             populateQuestions([]);
@@ -103,5 +109,6 @@
         }
     }
 </script>
+
 </body>
 </html>
