@@ -38,9 +38,10 @@
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error(`Error de red: ${response.status}`);
             
-            // AHORA USAMOS el método .json() que es más simple y directo,
-            // gracias a que corregimos la clase Apex.
             faqData = await response.json();
+
+            // --- LÍNEA AÑADIDA PARA MOSTRAR EL JSON EN CONSOLA ---
+            console.log("Datos JSON recibidos y listos para usar:", faqData);
 
             populateCategories('es');
         } catch (error) {
