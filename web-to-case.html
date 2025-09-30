@@ -19,24 +19,28 @@
     <select id="question-select"><option value="">Selecciona una categoría primero</option></select>
 
 <script>
+    // --- CONFIGURACIÓN ---
     const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
     let faqData = {};
 
+    // --- REFERENCIAS A ELEMENTOS DEL HTML ---
     const categorySelect = document.getElementById('category-select');
     const questionSelect = document.getElementById('question-select');
     const recommendationBox = document.getElementById('recommendation-box');
 
+    // --- LÓGICA PRINCIPAL ---
     document.addEventListener('DOMContentLoaded', fetchFaqData);
     categorySelect.addEventListener('change', handleCategoryChange);
 
+    // --- FUNCIONES ---
     async function fetchFaqData() {
         try {
             const response = await fetch(apiUrl);
             if (!response.ok) throw new Error(`Error de red: ${response.status}`);
             
-            // MÉTODO ROBUSTO: Leer como texto y convertir manualmente
-            const responseText = await response.text();
-            faqData = JSON.parse(responseText);
+            // AHORA USAMOS el método .json() que es más simple y directo,
+            // gracias a que corregimos la clase Apex.
+            faqData = await response.json();
 
             populateCategories('es');
         } catch (error) {
@@ -48,7 +52,7 @@
 
     function populateCategories(lang) {
         categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
-        const categoriesList = faqData[lang]; // La llave es 'es' o 'en'
+        const categoriesList = faqData[lang];
         
         if (!categoriesList) {
             console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos recibidos.", faqData);
