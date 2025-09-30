@@ -1,7 +1,7 @@
 // --- CONFIGURACIÓN ---
 const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
 
-let faqData = {};
+let faqData = {}; // Variable para guardar los datos de Salesforce
 
 const categorySelect = document.getElementById('category-select');
 const questionSelect = document.getElementById('question-select');
@@ -16,45 +16,32 @@ categorySelect.addEventListener('change', handleCategoryChange);
 // --- FUNCIONES ---
 async function fetchFaqData() {
     try {
-        console.log("1. Intentando llamar a la API...");
         const response = await fetch(apiUrl);
         if (!response.ok) throw new Error(`Error de red: ${response.statusText}`);
         faqData = await response.json();
-        
-        // ¡LÍNEA DE DIAGNÓSTICO 1!
-        console.log("2. ¡Éxito! Datos recibidos y guardados:", faqData);
-        
-        populateCategories('es');
+        populateCategories('es'); // Por defecto, usamos español
     } catch (error) {
-        console.error("ERROR CRÍTICO en fetchFaqData:", error);
+        console.error("Error al cargar datos de Salesforce:", error);
         categorySelect.innerHTML = '<option value="">Error al cargar categorías</option>';
     }
 }
 
 function populateCategories(lang) {
-    // ¡LÍNEA DE DIAGNÓSTICO 2!
-    console.log("3. Entrando a la función para poblar categorías...");
-    
     categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
     const categories = faqData[lang];
-
-    // ¡LÍNEA DE DIAGNÓSTICO 3!
-    console.log("4. Las categorías a procesar son:", categories);
-
+    
+    // Este bucle ahora debería funcionar porque el objeto 'categories' será correcto.
     for (const categoryName in categories) {
         const option = document.createElement('option');
         option.value = categoryName;
         option.textContent = categoryName;
         categorySelect.appendChild(option);
-        
-        // ¡LÍNEA DE DIAGNÓSTICO 4!
-        console.log(`5. Agregando opción: ${categoryName}`);
     }
 }
 
 function handleCategoryChange() {
     const selectedCategory = categorySelect.value;
-    const lang = 'es';
+    const lang = 'es'; 
 
     if (selectedCategory && faqData[lang] && faqData[lang][selectedCategory]) {
         const categoryData = faqData[lang][selectedCategory];
