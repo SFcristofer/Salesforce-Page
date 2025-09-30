@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejemplo de Soporte</title>
+</head>
+<body>
+
+    <h1>Formulario de Soporte</h1>
+    
+    <form id="support-form">
+        <label for="name">Nombre:</label><br>
+        <input type="text" id="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" required><br><br>
+        
+        <label for="subject">Asunto:</label><br>
+        <input type="text" id="subject" required><br><br>
+        
+        <label for="file-attachment">Adjuntar Imagen (Opcional):</label><br>
+        <input type="file" id="file-attachment" accept="image/*,application/pdf"><br><br>
+
+        <button type="submit" id="submit-button">Enviar Caso</button>
+    </form>
+
+    <div id="status-message"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
