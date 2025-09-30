@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <title>Formulario de Soporte Dinámico</title>
+    <title>Formulario de Soporte Dinámico (con Diagnóstico)</title>
     <style>
         body { font-family: sans-serif; margin: 2em; max-width: 600px; }
         label { display: inline-block; width: 180px; margin-top: 12px; vertical-align: top; }
@@ -93,30 +93,44 @@
 
         // --- FUNCIONES ---
         async function fetchFaqData() {
+            // CONSOLE 1: Verificamos que la función se inicia.
+            console.log("1. Iniciando la obtención de datos...");
             try {
                 const response = await fetch(apiUrl);
+                // CONSOLE 2: Verificamos el estado de la respuesta de la red.
+                console.log("2. Respuesta de la red recibida. Estado:", response.status);
                 if (!response.ok) throw new Error(`Error de red: ${response.status}`);
                 
-                // Usamos el método .json() simple, que funciona con el Apex corregido.
                 faqData = await response.json();
+                // CONSOLE 3: Verificamos los datos ya convertidos a objeto JavaScript.
+                console.log("3. Datos convertidos a JSON:", faqData);
 
-                populateCategories('es'); // Por defecto, usamos español
+                populateCategories('es');
             } catch (error) {
-                console.error("ERROR CRÍTICO:", error);
+                // CONSOLE 4: Si algo falla, se mostrará aquí.
+                console.error("4. ERROR CRÍTICO:", error);
                 categorySelect.innerHTML = '<option value="">Fallo la conexión a la API</option>';
             }
         }
 
         function populateCategories(lang) {
+            // CONSOLE 5: Verificamos que entramos a la función de poblar.
+            console.log("5. Intentando poblar categorías para el idioma:", lang);
             categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
             const categoriesList = faqData[lang];
             
             if (!categoriesList) {
-                console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos recibidos.", faqData);
+                // CONSOLE 6: Si no se encuentra la lista de categorías, lo sabremos.
+                console.error("6. ERROR: No se encontró la lista de categorías para el idioma '" + lang + "'.", faqData);
                 return;
             }
 
+            // CONSOLE 7: Verificamos que la lista de categorías es un array y tiene contenido.
+            console.log(`7. La lista de categorías tiene ${categoriesList.length} elementos.`);
+
             categoriesList.forEach(category => {
+                // CONSOLE 8: Verificamos cada categoría que se va a agregar.
+                console.log("8. Agregando la opción:", category.categoryName);
                 const option = document.createElement('option');
                 option.value = category.categoryName;
                 option.textContent = category.categoryName;
@@ -142,6 +156,8 @@
         function displayRecommendation(text) {
             recommendationBox.textContent = text || '';
         }
+
+
 
         function populateQuestions(questions) {
             questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
