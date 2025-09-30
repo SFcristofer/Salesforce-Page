@@ -100,7 +100,7 @@
                 // Usamos el método .json() simple, que funciona con el Apex corregido.
                 faqData = await response.json();
 
-                populateCategories('en'); // Por defecto, usamos español
+                populateCategories('es'); // Por defecto, usamos español
             } catch (error) {
                 console.error("ERROR CRÍTICO:", error);
                 categorySelect.innerHTML = '<option value="">Fallo la conexión a la API</option>';
@@ -126,7 +126,7 @@
 
         function handleCategoryChange() {
             const selectedCategoryName = categorySelect.value;
-            const lang = 'en';
+            const lang = 'es';
             if (selectedCategoryName) {
                 const categoryData = faqData[lang].find(cat => cat.categoryName === selectedCategoryName);
                 if (categoryData) {
