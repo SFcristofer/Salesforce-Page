@@ -1,102 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Prueba de API Final</title>
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <title>Formulario de Soporte Dinámico</title>
     <style>
         body { font-family: sans-serif; margin: 2em; max-width: 600px; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        select { width: 100%; padding: 8px; margin-top: 5px; }
-        #recommendation-box { margin-top: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; min-height: 20px; }
+        label { display: inline-block; width: 180px; margin-top: 12px; vertical-align: top; }
+        input[type="text"], select, textarea { width: 300px; padding: 5px; box-sizing: border-box; }
+        textarea { height: 100px; }
+        #recommendation-box { margin-left: 180px; margin-top: 5px; margin-bottom: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; max-width: 300px; min-height: 20px;}
+        input[type="submit"] { margin-top: 20px; margin-left: 180px; padding: 10px 20px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>Prueba de Conexión Final</h1>
-    <label for="category-select">Categoría:</label>
-    <select id="category-select"><option value="">Llamando a Salesforce...</option></select>
-    <div id="recommendation-box"></div>
-    <label for="question-select">Pregunta Específica:</label>
-    <select id="question-select"><option value="">Selecciona una categoría primero</option></select>
 
-<script>
-    // --- CONFIGURACIÓN ---
-    const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
-    let faqData = {};
+    <h1>Formulario de Contacto</h1>
+    <p>Por favor, completa el siguiente formulario para ayudarnos a resolver tu duda.</p>
 
-    // --- REFERENCIAS A ELEMENTOS DEL HTML ---
-    const categorySelect = document.getElementById('category-select');
-    const questionSelect = document.getElementById('question-select');
-    const recommendationBox = document.getElementById('recommendation-box');
+    <form action="https://crossborderxpressmx--dev.sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKU0000008jFo" method="POST">
 
-    // --- LÓGICA PRINCIPAL ---
-    document.addEventListener('DOMContentLoaded', fetchFaqData);
-    categorySelect.addEventListener('change', handleCategoryChange);
+        <input type="hidden" name="orgid" value="00DKU0000008jFo">
+        <input type="hidden" name="retURL" value="https://URL-DE-SU-PAGINA-DE-GRACIAS.com">
 
-    // --- FUNCIONES ---
-    async function fetchFaqData() {
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error(`Error de red: ${response.status}`);
-            
-            // AHORA USAMOS el método .json() que es más simple y directo,
-            // gracias a que corregimos la clase Apex.
-            faqData = await response.json();
+        <label for="name">Nombre del contacto:</label>
+        <input id="name" name="name" type="text" required><br>
 
-            populateCategories('es');
-        } catch (error) {
-            console.error("ERROR CRÍTICO:", error);
-            categorySelect.innerHTML = '<option value="">Fallo la conexión o el procesamiento</option>';
-            alert("Hubo un error. Revisa la consola (F12).");
-        }
-    }
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="text" required><br>
 
-    function populateCategories(lang) {
-        categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
-        const categoriesList = faqData[lang];
+        <label for="phone">Teléfono:</label>
+        <input id="phone" name="phone" type="text"><br>
         
-        if (!categoriesList) {
-            console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos recibidos.", faqData);
-            return;
-        }
+        <label for="category-select">Categoría:</label>
+        <select id="category-select" name="00NKU000005nCbF" required>
+            <option value="">Cargando...</option>
+        </select><br>
 
-        categoriesList.forEach(category => {
-            const option = document.createElement('option');
-            option.value = category.categoryName;
-            option.textContent = category.categoryName;
-            categorySelect.appendChild(option);
-        });
-    }
+        <div id="recommendation-box"></div>
 
-    function handleCategoryChange() {
-        const selectedCategoryName = categorySelect.value;
-        const lang = 'es';
-        if (selectedCategoryName) {
-            const categoryData = faqData[lang].find(cat => cat.categoryName === selectedCategoryName);
-            if (categoryData) {
-                displayRecommendation(categoryData.recommendation);
-                populateQuestions(categoryData.questions);
+        <label for="question-select">Pregunta Específica:</label>
+        <select id="question-select" name="00NKU000005nCbK" required>
+            <option value="">Selecciona una categoría primero</option>
+        </select><br>
+
+        <label for="subject">Asunto:</label>
+        <input id="subject" name="subject" type="text" required><br>
+
+        <label for="description">Descripción:</label>
+        <textarea id="description" name="description"></textarea><br>
+
+        <label for="00NKU000005nBRL">Los 4 ultimos digitos:</label>
+        <input id="00NKU000005nBRL" name="00NKU000005nBRL" type="text"><br>
+
+        <label for="00NKU000005nBRQ">Fecha de compra:</label>
+        <input id="00NKU000005nBRQ" name="00NKU000005nBRQ" type="text"><br>
+
+        <label for="00NKU000005nBRu">Codigo postal:</label>
+        <input id="00NKU000005nBRu" name="00NKU000005nBRu" type="text"><br>
+
+        <label for="00NKU000005nCbZ">Numero de boleto:</label>
+        <input id="00NKU000005nCbZ" name="00NKU000005nCbZ" type="text"><br>
+
+        <label for="00NKU000005nCbe">Número de reservación:</label>
+        <input id="00NKU000005nCbe" name="00NKU000005nCbe" type="text"><br>
+
+        <label for="00NKU000005nCbf">Fecha de viaje:</label>
+        <input id="00NKU000005nCbf" name="00NKU000005nCbf" type="text"><br>
+
+        <label for="00NKU000005nCbj">RFC:</label>
+        <input id="00NKU000005nCbj" name="00NKU000005nCbj" type="text"><br>
+
+        <label for="00NKU000005nCbo">Nombre o Razón Social:</label>
+        <input id="00NKU000005nCbo" name="00NKU000005nCbo" type="text"><br>
+
+        <br>
+        <input type="submit" name="submit" value="Enviar">
+    </form>
+    
+    <script>
+        // --- CONFIGURACIÓN ---
+        const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
+        let faqData = {};
+
+        // --- REFERENCIAS A ELEMENTOS DEL HTML ---
+        const categorySelect = document.getElementById('category-select');
+        const questionSelect = document.getElementById('question-select');
+        const recommendationBox = document.getElementById('recommendation-box');
+
+        // --- LÓGICA PRINCIPAL ---
+        document.addEventListener('DOMContentLoaded', fetchFaqData);
+        categorySelect.addEventListener('change', handleCategoryChange);
+
+        // --- FUNCIONES ---
+        async function fetchFaqData() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error(`Error de red: ${response.status}`);
+                
+                // Usamos el método .json() simple, que funciona con el Apex corregido.
+                faqData = await response.json();
+
+                populateCategories('es'); // Por defecto, usamos español
+            } catch (error) {
+                console.error("ERROR CRÍTICO:", error);
+                categorySelect.innerHTML = '<option value="">Fallo la conexión a la API</option>';
             }
-        } else {
-            displayRecommendation('');
-            populateQuestions([]);
         }
-    }
 
-    function displayRecommendation(text) {
-        recommendationBox.textContent = text || '';
-    }
+        function populateCategories(lang) {
+            categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
+            const categoriesList = faqData[lang];
+            
+            if (!categoriesList) {
+                console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos recibidos.", faqData);
+                return;
+            }
 
-    function populateQuestions(questions) {
-        questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
-        if (questions && questions.length > 0) {
-            questions.forEach(q => {
+            categoriesList.forEach(category => {
                 const option = document.createElement('option');
-                option.value = q.question;
-                option.textContent = q.question;
-                questionSelect.appendChild(option);
+                option.value = category.categoryName;
+                option.textContent = category.categoryName;
+                categorySelect.appendChild(option);
             });
         }
-    }
-</script>
-</body>
+
+        function handleCategoryChange() {
+            const selectedCategoryName = categorySelect.value;
+            const lang = 'es';
+            if (selectedCategoryName) {
+                const categoryData = faqData[lang].find(cat => cat.categoryName === selectedCategoryName);
+                if (categoryData) {
+                    displayRecommendation(categoryData.recommendation);
+                    populateQuestions(categoryData.questions);
+                }
+            } else {
+                displayRecommendation('');
+                populateQuestions([]);
+            }
+        }
+
+        function displayRecommendation(text) {
+            recommendationBox.textContent = text || '';
+        }
+
+        function populateQuestions(questions) {
+            questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
+            if (questions && questions.length > 0) {
+                questions.forEach(q => {
+                    const option = document.createElement('option');
+                    option.value = q.question;
+                    option.textContent = q.question;
+                    questionSelect.appendChild(option);
+                });
+            }
+        }
+    </script>
+    </body>
 </html>
