@@ -57,6 +57,35 @@
             <input type="text" id="ultimos4Digitos">
         </div>
         <div class="form-group">
+            <label for="fechaCompra">Fecha de Compra:</label>
+            <input type="date" id="fechaCompra">
+        </div>
+        <div class="form-group">
+            <label for="codigoPostal">Código Postal:</label>
+            <input type="text" id="codigoPostal">
+        </div>
+        <div class="form-group">
+            <label for="numeroDeBoleto">Número de Boleto:</label>
+            <input type="text" id="numeroDeBoleto">
+        </div>
+        <div class="form-group">
+            <label for="numeroDeReservacion">Número de Reservación:</label>
+            <input type="text" id="numeroDeReservacion">
+        </div>
+        <div class="form-group">
+            <label for="fechaDeViaje">Fecha de Viaje:</label>
+            <input type="date" id="fechaDeViaje">
+        </div>
+        <div class="form-group">
+            <label for="rfc">RFC:</label>
+            <input type="text" id="rfc">
+        </div>
+        <div class="form-group">
+            <label for="razonSocial">Razón Social:</label>
+            <input type="text" id="razonSocial">
+        </div>
+        
+        <div class="form-group">
             <label for="file-attachment">Adjuntar Imagen (Opcional):</label>
             <input type="file" id="file-attachment" accept="image/*,application/pdf">
         </div>
@@ -67,7 +96,6 @@
     <div id="status-message"></div>
 
     <script>
-        // ¡IMPORTANTE! Reemplaza esta URL con la URL de tu API de Salesforce
         const API_URL = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/TechWebCase';
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -82,7 +110,6 @@
                 statusMessage.textContent = 'Enviando, por favor espera...';
                 statusMessage.style.color = 'black';
 
-                // Recolectar datos del formulario
                 const formData = {
                     name: document.getElementById('name').value,
                     email: document.getElementById('email').value,
@@ -92,12 +119,17 @@
                     categoria: document.getElementById('categoria').value,
                     preguntaEspecifica: document.getElementById('preguntaEspecifica').value,
                     ultimos4Digitos: document.getElementById('ultimos4Digitos').value,
-                    // ... mapea aquí el resto de tus campos personalizados ...
+                    fechaCompra: document.getElementById('fechaCompra').value,
+                    codigoPostal: document.getElementById('codigoPostal').value,
+                    numeroDeBoleto: document.getElementById('numeroDeBoleto').value,
+                    numeroDeReservacion: document.getElementById('numeroDeReservacion').value,
+                    fechaDeViaje: document.getElementById('fechaDeViaje').value,
+                    rfc: document.getElementById('rfc').value,
+                    razonSocial: document.getElementById('razonSocial').value,
                     fileName: null,
                     fileBodyBase64: null
                 };
 
-                // Procesar el archivo si fue seleccionado
                 const fileInput = document.getElementById('file-attachment');
                 if (fileInput.files.length > 0) {
                     const file = fileInput.files[0];
@@ -113,7 +145,6 @@
                     }
                 }
                 
-                // Llamar a la API de Salesforce
                 try {
                     const response = await fetch(API_URL, {
                         method: 'POST',
@@ -144,7 +175,6 @@
                 }
             });
 
-            // Función auxiliar para convertir un archivo a Base64
             const toBase64 = file => new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
