@@ -80,9 +80,13 @@
          
         <label for="description">Descripción</label><textarea name="description"></textarea><br>
          
-        Categoría Seleccionada:<input  id="00NKj00001MkenT" maxlength="255" name="00NKj00001MkenT" size="20" type="text" /><br>
-         
-        Pregunta Seleccionada:<input  id="00NKj00001MkenU" maxlength="255" name="00NKj00001MkenU" size="20" type="text" /><br>
+        <label for="prod-category-select">Categoría:</label>
+        <select id="prod-category-select" name="00NKj00001MkenT"><option value="">Cargando...</option></select><br>
+
+        <div id="prod-recommendation-box" style="margin-top: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; min-height: 20px;"></div>
+
+        <label for="prod-question-select">Pregunta Específica:</label>
+        <select id="prod-question-select" name="00NKj00001MkenU"><option value="">Selecciona una categoría primero</option></select><br>
          
         Fecha de compra:<span class="dateInput dateOnlyInput"><input  id="00NKj00001MkenH" name="00NKj00001MkenH" size="12" type="text" /></span><br>
          
@@ -135,13 +139,20 @@
     const apiUrl = 'https://crossborderxpressmx.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
     let faqData = {};
 
-    // --- REFERENCIAS A ELEMENTOS DEL HTML ---
+    // --- REFERENCIAS A ELEMENTOS DEL HTML (PESTAÑA DESARROLLO) ---
     const categorySelect = document.getElementById('category-select');
     const questionSelect = document.getElementById('question-select');
     const recommendationBox = document.getElementById('recommendation-box');
 
+    // --- REFERENCIAS A ELEMENTOS DEL HTML (PESTAÑA PRODUCCIÓN) ---
+    const prodCategorySelect = document.getElementById('prod-category-select');
+    const prodQuestionSelect = document.getElementById('prod-question-select');
+    const prodRecommendationBox = document.getElementById('prod-recommendation-box');
+
+
     // --- EVENT LISTENERS ---
     categorySelect.addEventListener('change', handleCategoryChange);
+    prodCategorySelect.addEventListener('change', handleProdCategoryChange);
 
     // --- FUNCIONES ---
     async function fetchFaqData() {
@@ -151,17 +162,22 @@
             
             faqData = await response.json();
 
-            // --- LÍNEA AÑADIDA PARA MOSTRAR EL JSON EN CONSOLA ---
             console.log("Datos JSON recibidos y listos para usar:", faqData);
 
+            // Populate both Dev and Prod dropdowns
             populateCategories('es');
+            populateProdCategories('es');
+
         } catch (error) {
             console.error("ERROR CRÍTICO:", error);
-            categorySelect.innerHTML = '<option value="">Fallo la conexión o el procesamiento</option>';
+            const errorMsg = 'Fallo la conexión o el procesamiento';
+            categorySelect.innerHTML = `<option value="">${errorMsg}</option>`;
+            prodCategorySelect.innerHTML = `<option value="">${errorMsg}</option>`;
             alert("Hubo un error. Revisa la consola (F12).");
         }
     }
 
+    // --- FUNCIONES PARA PESTAÑA DESARROLLO ---
     function populateCategories(lang) {
         categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
         const categoriesList = faqData[lang];
@@ -181,9 +197,8 @@
 
     function handleCategoryChange() {
         const selectedCategoryName = categorySelect.value;
-        const lang = 'es';
         if (selectedCategoryName) {
-            const categoryData = faqData[lang].find(cat => cat.categoryName === selectedCategoryName);
+            const categoryData = faqData['es'].find(cat => cat.categoryName === selectedCategoryName);
             if (categoryData) {
                 displayRecommendation(categoryData.recommendation);
                 populateQuestions(categoryData.questions);
@@ -206,6 +221,54 @@
                 option.value = q.question;
                 option.textContent = q.question;
                 questionSelect.appendChild(option);
+            });
+        }
+    }
+
+    // --- FUNCIONES PARA PESTAÑA PRODUCCIÓN ---
+    function populateProdCategories(lang) {
+        prodCategorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
+        const categoriesList = faqData[lang];
+        
+        if (!categoriesList) {
+            console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos recibidos.", faqData);
+            return;
+        }
+
+        categoriesList.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.categoryName;
+            option.textContent = category.categoryName;
+            prodCategorySelect.appendChild(option);
+        });
+    }
+    
+    function handleProdCategoryChange() {
+        const selectedCategoryName = prodCategorySelect.value;
+        if (selectedCategoryName) {
+            const categoryData = faqData['es'].find(cat => cat.categoryName === selectedCategoryName);
+            if (categoryData) {
+                displayProdRecommendation(categoryData.recommendation);
+                populateProdQuestions(categoryData.questions);
+            }
+        } else {
+            displayProdRecommendation('');
+            populateProdQuestions([]);
+        }
+    }
+
+    function displayProdRecommendation(text) {
+        prodRecommendationBox.textContent = text || '';
+    }
+
+    function populateProdQuestions(questions) {
+        prodQuestionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
+        if (questions && questions.length > 0) {
+            questions.forEach(q => {
+                const option = document.createElement('option');
+                option.value = q.question;
+                option.textContent = q.question;
+                prodQuestionSelect.appendChild(option);
             });
         }
     }
