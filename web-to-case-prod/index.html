@@ -1,225 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-       
-    <meta charset="UTF-8">
-       
-    <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
-        <title>Prueba de API Final (Producción CORREGIDO)</title>
-        <style>
-        body {
-            font-family: sans-serif;
-            margin: 2em;
-            max-width: 600px;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        select,
-        input[type=text],
-        textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            box-sizing: border-box;
-        }
-
-        #recommendation-box,
-        #prod-recommendation-box {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f4f4f4;
-            border-left: 3px solid #007bff;
-            min-height: 20px;
-        }
-
-        /* Estilos de Pestañas */
-        .tab {
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
-
-        .tab button {
-            background-color: inherit;
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-        }
-
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        .tab button.active {
-            background-color: #ccc;
-        }
-
-        .tabcontent {
-            display: none;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-top: none;
-        }
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+    <title>Formulario de Soporte Dinámico (con Diagnóstico)</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; max-width: 600px; }
+        label { display: inline-block; width: 180px; margin-top: 12px; vertical-align: top; }
+        input[type="text"], select, textarea { width: 300px; padding: 5px; box-sizing: border-box; }
+        textarea { height: 100px; }
+        #recommendation-box { margin-left: 180px; margin-top: 5px; margin-bottom: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; max-width: 300px; min-height: 20px;}
+        input[type="submit"] { margin-top: 20px; margin-left: 180px; padding: 10px 20px; cursor: pointer; }
     </style>
 </head>
-
 <body>
-        <div class="tab">
-              <button class="tablinks" onclick="openTab(event, 'Dev')">Visor de FAQs</button>
-              <button class="tablinks" onclick="openTab(event, 'Prod')">Formulario Producción (Web-to-Case)</button>
-            </div>
 
-        <div id="Dev" class="tabcontent">
-              <h3>Visor de FAQs (Datos de Producción)</h3>
-                <label for="category-select">Categoría:</label>
-                <select id="category-select">
-            <option value="">Llamando a Salesforce </option>
-        </select>
-                <div id="recommendation-box"></div>
-                <label for="question-select">Pregunta Específica:</label>
-                <select id="question-select">
+    <h1>Formulario de Contacto</h1>
+    <p>Por favor, completa el siguiente formulario para ayudarnos a resolver tu duda.</p>
+
+    <form action="https://crossborderxpressmx--dev.sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKU0000008jFo" method="POST">
+
+        <input type="hidden" name="orgid" value="00DKU0000008jFo">
+        <input type="hidden" name="retURL" value="https://URL-DE-SU-PAGINA-DE-GRACIAS.com">
+
+        <label for="name">Nombre del contacto:</label>
+        <input id="name" name="name" type="text" required><br>
+
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="text" required><br>
+
+        <label for="phone">Teléfono:</label>
+        <input id="phone" name="phone" type="text"><br>
+        
+        <label for="category-select">Categoría:</label>
+        <select id="category-select" name="00NKU000005nCbF" required>
+            <option value="">Cargando...</option>
+        </select><br>
+
+        <div id="recommendation-box"></div>
+
+        <label for="question-select">Pregunta Específica:</label>
+        <select id="question-select" name="00NKU000005nCbK" required>
             <option value="">Selecciona una categoría primero</option>
-        </select>
-            </div>
+        </select><br>
 
-        <div id="Prod" class="tabcontent">
-              <h3>Formulario Producción (Web-to-Case)</h3>
-                <form
-            action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKj00000EAUqM"
-            method="POST">
-             
-                    <input type="hidden" name="orgid" value="00DKj00000EAUqM">
-                    <input type="hidden" name="retURL" value="http://URL-DE-GRACIAS.com">          
-                    <label for="name">Nombre del contacto</label><input  id="name" maxlength="80" name="name" size="20"
-                type="text" /><br>
-                    <label for="email">Email</label><input  id="email" maxlength="80" name="email" size="20"
-                type="text" /><br>
-                    <label for="phone">Teléfono</label><input  id="phone" maxlength="40" name="phone" size="20"
-                type="text" /><br>
-                    <label for="subject">Asunto</label><input  id="subject" maxlength="80" name="subject" size="20"
-                type="text" /><br>
-                    <label for="description">Descripción</label><textarea name="description"></textarea><br>
-                   
-                    <label for="prod-category-select">Categoría:</label>
-                    <select id="prod-category-select" name="00NKj00001MkenT">
-                <option value="">Cargando </option>
-            </select><br>
+        <label for="subject">Asunto:</label>
+        <input id="subject" name="subject" type="text" required><br>
 
-                    <div id="prod-recommendation-box"></div>
+        <label for="description">Descripción:</label>
+        <textarea id="description" name="description"></textarea><br>
 
-                    <label for="prod-question-select">Pregunta Específica:</label>
-                    <select id="prod-question-select" name="00NKj00001MkenU">
-                <option value="">Selecciona una categoría primero</option>
-            </select><br>
-                   
-                    <label>Fecha de compra:</label><input  id="00NKj00001MkenH" name="00NKj00001MkenH" size="12"
-                type="text" /><br>
-                    <label>Los 4 ultimos digitos:</label><input  id="00NKj00001MkenJ" name="00NKj00001MkenJ" size="20"
-                type="text" /><br>
-                    <label>Codigo postal:</label><input  id="00NKj00001MkenE" name="00NKj00001MkenE" size="20"
-                type="text" /><br>
-                   
-                    <input type="hidden"  id="external" name="external" value="1" /><br>
-                    <input type="submit" name="submit">
-                    </form>
-            </div>
+        <label for="00NKU000005nBRL">Los 4 ultimos digitos:</label>
+        <input id="00NKU000005nBRL" name="00NKU000005nBRL" type="text"><br>
 
+        <label for="00NKU000005nBRQ">Fecha de compra:</label>
+        <input id="00NKU000005nBRQ" name="00NKU000005nBRQ" type="text"><br>
+
+        <label for="00NKU000005nBRu">Codigo postal:</label>
+        <input id="00NKU000005nBRu" name="00NKU000005nBRu" type="text"><br>
+
+        <label for="00NKU000005nCbZ">Numero de boleto:</label>
+        <input id="00NKU000005nCbZ" name="00NKU000005nCbZ" type="text"><br>
+
+        <label for="00NKU000005nCbe">Número de reservación:</label>
+        <input id="00NKU000005nCbe" name="00NKU000005nCbe" type="text"><br>
+
+        <label for="00NKU000005nCbf">Fecha de viaje:</label>
+        <input id="00NKU000005nCbf" name="00NKU000005nCbf" type="text"><br>
+
+        <label for="00NKU000005nCbj">RFC:</label>
+        <input id="00NKU000005nCbj" name="00NKU000005nCbj" type="text"><br>
+
+        <label for="00NKU000005nCbo">Nombre o Razón Social:</label>
+        <input id="00NKU000005nCbo" name="00NKU000005nCbo" type="text"><br>
+
+        <br>
+        <input type="submit" name="submit" value="Enviar">
+    </form>
+    
     <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        // --- LÓGICA PRINCIPAL ---
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementsByClassName('tablinks')[0].click();
-            fetchFaqData();
-        });
-
-        // --- CONFIGURACIÓN (Apunta a Producción) ---
-        const apiUrl = 'https://crossborderxpressmx.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
+        // --- CONFIGURACIÓN ---
+        const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
         let faqData = {};
 
-        // --- REFERENCIAS A ELEMENTOS HTML ---
+        // --- REFERENCIAS A ELEMENTOS DEL HTML ---
         const categorySelect = document.getElementById('category-select');
         const questionSelect = document.getElementById('question-select');
         const recommendationBox = document.getElementById('recommendation-box');
-        const prodCategorySelect = document.getElementById('prod-category-select');
-        const prodQuestionSelect = document.getElementById('prod-question-select');
-        const prodRecommendationBox = document.getElementById('prod-recommendation-box');
 
-        // --- EVENT LISTENERS ---
+        // --- LÓGICA PRINCIPAL ---
+        document.addEventListener('DOMContentLoaded', fetchFaqData);
         categorySelect.addEventListener('change', handleCategoryChange);
-        prodCategorySelect.addEventListener('change', handleProdCategoryChange);
 
         // --- FUNCIONES ---
         async function fetchFaqData() {
+            // CONSOLE 1: Verificamos que la función se inicia.
+            console.log("1. Iniciando la obtención de datos...");
             try {
                 const response = await fetch(apiUrl);
+                // CONSOLE 2: Verificamos el estado de la respuesta de la red.
+                console.log("2. Respuesta de la red recibida. Estado:", response.status);
                 if (!response.ok) throw new Error(`Error de red: ${response.status}`);
+                
                 faqData = await response.json();
-                console.log("Datos JSON de Producción recibidos:", faqData);
+                // CONSOLE 3: Verificamos los datos ya convertidos a objeto JavaScript.
+                console.log("3. Datos convertidos a JSON:", faqData);
 
-                // Populate both dropdowns
                 populateCategories('es');
-                populateProdCategories('es');
-
             } catch (error) {
-                console.error("ERROR CRÍTICO:", error);
-                const errorMsg = 'Fallo la conexión o el procesamiento';
-                categorySelect.innerHTML = `<option value="">${errorMsg}</option>`;
-                prodCategorySelect.innerHTML = `<option value="">${errorMsg}</option>`;
+                // CONSOLE 4: Si algo falla, se mostrará aquí.
+                console.error("4. ERROR CRÍTICO:", error);
+                categorySelect.innerHTML = '<option value="">Fallo la conexión a la API</option>';
             }
         }
 
-        // ==========================================================
-        // --- INICIO DE CAMBIOS: LÓGICA DE OBJETO ---
-        // ==========================================================
-
-        // --- FUNCIONES PARA PESTAÑA VISOR DE FAQS ---
         function populateCategories(lang) {
+            // CONSOLE 5: Verificamos que entramos a la función de poblar.
+            console.log("5. Intentando poblar categorías para el idioma:", lang);
             categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
-            const categories = faqData[lang]; // Espera un OBJETO
-
-            if (!categories) {
-                console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos (Visor).", faqData);
+            const categoriesList = faqData[lang];
+            
+            if (!categoriesList) {
+                // CONSOLE 6: Si no se encuentra la lista de categorías, lo sabremos.
+                console.error("6. ERROR: No se encontró la lista de categorías para el idioma '" + lang + "'.", faqData);
                 return;
             }
 
-            // *** CAMBIO CLAVE: Usamos 'for...in' para iterar un Objeto ***
-            for (const categoryName in categories) {
+            // CONSOLE 7: Verificamos que la lista de categorías es un array y tiene contenido.
+            console.log(`7. La lista de categorías tiene ${categoriesList.length} elementos.`);
+
+            categoriesList.forEach(category => {
+                // CONSOLE 8: Verificamos cada categoría que se va a agregar.
+                console.log("8. Agregando la opción:", category.categoryName);
                 const option = document.createElement('option');
-                option.value = categoryName;
-                option.textContent = categoryName;
+                option.value = category.categoryName;
+                option.textContent = category.categoryName;
                 categorySelect.appendChild(option);
-            }
+            });
         }
 
         function handleCategoryChange() {
             const selectedCategoryName = categorySelect.value;
             const lang = 'es';
-
-            // *** CAMBIO CLAVE: Buscamos por llave de Objeto, no con .find() ***
-            if (selectedCategoryName && faqData[lang] && faqData[lang][selectedCategoryName]) {
-                const categoryData = faqData[lang][selectedCategoryName]; // Acceso directo
+            if (selectedCategoryName) {
+                const categoryData = faqData[lang].find(cat => cat.categoryName === selectedCategoryName);
                 if (categoryData) {
                     displayRecommendation(categoryData.recommendation);
                     populateQuestions(categoryData.questions);
@@ -234,6 +157,8 @@
             recommendationBox.textContent = text || '';
         }
 
+
+
         function populateQuestions(questions) {
             questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
             if (questions && questions.length > 0) {
@@ -245,62 +170,25 @@
                 });
             }
         }
-
-        // --- FUNCIONES PARA PESTAÑA PRODUCCIÓN (Web-to-Case) ---
-        function populateProdCategories(lang) {
-            prodCategorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
-            const categories = faqData[lang]; // Espera un OBJETO
-
-            if (!categories) {
-                console.error("Error: No se encontró la llave de idioma '" + lang + "' en los datos (Formulario).", faqData);
-                return;
-            }
-
-            // *** CAMBIO CLAVE: Usamos 'for...in' para iterar un Objeto ***
-            for (const categoryName in categories) {
-                const option = document.createElement('option');
-                option.value = categoryName;
-                option.textContent = categoryName;
-                prodCategorySelect.appendChild(option);
-            }
-        }
-
-        function handleProdCategoryChange() {
-            const selectedCategoryName = prodCategorySelect.value;
-            const lang = 'es';
-
-            // *** CAMBIO CLAVE: Buscamos por llave de Objeto, no con .find() ***
-            if (selectedCategoryName && faqData[lang] && faqData[lang][selectedCategoryName]) {
-                const categoryData = faqData[lang][selectedCategoryName]; // Acceso directo
-                if (categoryData) {
-                    displayProdRecommendation(categoryData.recommendation);
-                    populateProdQuestions(categoryData.questions);
-                }
-            } else {
-                displayProdRecommendation('');
-                populateProdQuestions([]);
-            }
-        }
-
-        function displayProdRecommendation(text) {
-            prodRecommendationBox.textContent = text || '';
-        }
-
-        function populateProdQuestions(questions) {
-            prodQuestionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
-            if (questions && questions.length > 0) {
-                questions.forEach(q => {
-                    const option = document.createElement('option');
-                    option.value = q.question;
-                    option.textContent = q.question;
-                    prodQuestionSelect.appendChild(option);
-                });
-            }
-        }
-        // ==========================================================
-        // --- FIN DE CAMBIOS ---
-        // ==========================================================
     </script>
-</body>
+    <script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'es_MX'; // For example, enter 'en' or 'en-US'
 
+			embeddedservice_bootstrap.init(
+				'00DKj00000EAUqM',
+				'CBX',
+				'https://crossborderxpressmx.my.site.com/ESWCBX1762120341728',
+				{
+					scrt2URL: 'https://crossborderxpressmx.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://crossborderxpressmx.my.site.com/ESWCBX1762120341728/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+    </body>
 </html>
