@@ -1,85 +1,128 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+       
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <title>Formulario de Soporte Dinámico (con Diagnóstico)</title>
-    <style>
-        body { font-family: sans-serif; margin: 2em; max-width: 600px; }
-        label { display: inline-block; width: 180px; margin-top: 12px; vertical-align: top; }
-        input[type="text"], select, textarea { width: 300px; padding: 5px; box-sizing: border-box; }
-        textarea { height: 100px; }
-        #recommendation-box { margin-left: 180px; margin-top: 5px; margin-bottom: 10px; padding: 10px; background-color: #f4f4f4; border-left: 3px solid #007bff; max-width: 300px; min-height: 20px;}
-        input[type="submit"] { margin-top: 20px; margin-left: 180px; padding: 10px 20px; cursor: pointer; }
+        <title>Formulario de Soporte Dinámico (con Diagnóstico)</title>
+        <style>
+        body {
+            font-family: sans-serif;
+            margin: 2em;
+            max-width: 600px;
+        }
+
+        label {
+            display: inline-block;
+            width: 180px;
+            margin-top: 12px;
+            vertical-align: top;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 300px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        #recommendation-box {
+            margin-left: 180px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-left: 3px solid #007bff;
+            max-width: 300px;
+            min-height: 20px;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            margin-left: 180px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
 
-    <h1>Formulario de Contacto</h1>
-    <p>Por favor, completa el siguiente formulario para ayudarnos a resolver tu duda.</p>
+        <h1>Formulario de Contacto</h1>
+        <p>Por favor, completa el siguiente formulario para ayudarnos a resolver tu duda.</p>
 
-    <form action="https://crossborderxpressmx--dev.sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKU0000008jFo" method="POST">
+            <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKj00000EAUqM"
+        method="POST">
 
-        <input type="hidden" name="orgid" value="00DKU0000008jFo">
-        <input type="hidden" name="retURL" value="https://URL-DE-SU-PAGINA-DE-GRACIAS.com">
+                <input type="hidden" name="orgid" value="00DKj00000EAUqM">
+                <input type="hidden" name="retURL" value="http://">
 
-        <label for="name">Nombre del contacto:</label>
-        <input id="name" name="name" type="text" required><br>
+                <label for="name">Nombre del contacto:</label>
+                <input id="name" name="name" type="text" required><br>
 
-        <label for="email">Email:</label>
-        <input id="email" name="email" type="text" required><br>
+                <label for="email">Email:</label>
+                <input id="email" name="email" type="text" required><br>
 
-        <label for="phone">Teléfono:</label>
-        <input id="phone" name="phone" type="text"><br>
-        
-        <label for="category-select">Categoría:</label>
-        <select id="category-select" name="00NKU000005nCbF" required>
-            <option value="">Cargando...</option>
-        </select><br>
+                <label for="phone">Teléfono:</label>
+                <input id="phone" name="phone" type="text"><br>
+               
+                        <label for="category-select">Categoría:</label>
+                <select id="category-select" name="00NKj00001MkenT" required>
+                        <option value="">Cargando...</option>
+                    </select><br>
 
-        <div id="recommendation-box"></div>
+                <div id="recommendation-box"></div>
 
-        <label for="question-select">Pregunta Específica:</label>
-        <select id="question-select" name="00NKU000005nCbK" required>
-            <option value="">Selecciona una categoría primero</option>
-        </select><br>
+                        <label for="question-select">Pregunta Específica:</label>
+                <select id="question-select" name="00NKj00001MkenU" required>
+                        <option value="">Selecciona una categoría primero</option>
+                    </select><br>
 
-        <label for="subject">Asunto:</label>
-        <input id="subject" name="subject" type="text" required><br>
+                <label for="subject">Asunto:</label>
+                <input id="subject" name="subject" type="text" required><br>
 
-        <label for="description">Descripción:</label>
-        <textarea id="description" name="description"></textarea><br>
+                <label for="description">Descripción:</label>
+                <textarea id="description" name="description"></textarea><br>
 
-        <label for="00NKU000005nBRL">Los 4 ultimos digitos:</label>
-        <input id="00NKU000005nBRL" name="00NKU000005nBRL" type="text"><br>
+                        <label for="00NKj00001MkenJ">Los 4 ultimos digitos:</label>
+                <input id="00NKj00001MkenJ" name="00NKj00001MkenJ" type="text"><br>
 
-        <label for="00NKU000005nBRQ">Fecha de compra:</label>
-        <input id="00NKU000005nBRQ" name="00NKU000005nBRQ" type="text"><br>
+                <label for="00NKj00001MkenH">Fecha de compra:</label>
+                <input id="00NKj00001MkenH" name="00NKj00001MkenH" type="text"><br>
 
-        <label for="00NKU000005nBRu">Codigo postal:</label>
-        <input id="00NKU000005nBRu" name="00NKU000005nBRu" type="text"><br>
+                <label for="00NKj00001MkenE">Codigo postal:</label>
+                <input id="00NKj00001MkenE" name="00NKj00001MkenE" type="text"><br>
 
-        <label for="00NKU000005nCbZ">Numero de boleto:</label>
-        <input id="00NKU000005nCbZ" name="00NKU000005nCbZ" type="text"><br>
+                <label for="00NKj00001MkenM">Numero de boleto:</label>
+                <input id="00NKj00001MkenM" name="00NKj00001MkenM" type="text"><br>
 
-        <label for="00NKU000005nCbe">Número de reservación:</label>
-        <input id="00NKU000005nCbe" name="00NKU000005nCbe" type="text"><br>
+                <label for="00NKj00001MkenN">Número de reservación:</label>
+                <input id="00NKj00001MkenN" name="00NKj00001MkenN" type="text"><br>
 
-        <label for="00NKU000005nCbf">Fecha de viaje:</label>
-        <input id="00NKU000005nCbf" name="00NKU000005nCbf" type="text"><br>
+                <label for="00NKj00001MkenI">Fecha de viaje:</label>
+                <input id="00NKj00001MkenI" name="00NKj00001MkenI" type="text"><br>
 
-        <label for="00NKU000005nCbj">RFC:</label>
-        <input id="00NKU000005nCbj" name="00NKU000005nCbj" type="text"><br>
+                <label for="00NKj00001MkenP">RFC:</label>
+                <input id="00NKj00001MkenP" name="00NKj00001MkenP" type="text"><br>
 
-        <label for="00NKU000005nCbo">Nombre o Razón Social:</label>
-        <input id="00NKU000005nCbo" name="00NKU000005nCbo" type="text"><br>
+                <label for="00NKj00001MkenK">Nombre o Razón Social:</label>
+                <input id="00NKj00001MkenK" name="00NKj00001MkenK" type="text"><br>
 
-        <br>
-        <input type="submit" name="submit" value="Enviar">
-    </form>
-    
+                        <input type="hidden" id="external" name="external" value="1" /><br>
+
+                <br>
+                <input type="submit" name="submit" value="Enviar">
+            </form>
+       
+           
     <script>
         // --- CONFIGURACIÓN ---
-        const apiUrl = 'https://crossborderxpressmx--dev.sandbox.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
+        const apiUrl = 'https://crossborderxpressmx.my.site.com/apipublica/services/apexrest/PreguntasFAQ';
         let faqData = {};
 
         // --- REFERENCIAS A ELEMENTOS DEL HTML ---
@@ -100,7 +143,7 @@
                 // CONSOLE 2: Verificamos el estado de la respuesta de la red.
                 console.log("2. Respuesta de la red recibida. Estado:", response.status);
                 if (!response.ok) throw new Error(`Error de red: ${response.status}`);
-                
+
                 faqData = await response.json();
                 // CONSOLE 3: Verificamos los datos ya convertidos a objeto JavaScript.
                 console.log("3. Datos convertidos a JSON:", faqData);
@@ -118,7 +161,7 @@
             console.log("5. Intentando poblar categorías para el idioma:", lang);
             categorySelect.innerHTML = `<option value="">-- Selecciona una categoría --</option>`;
             const categoriesList = faqData[lang];
-            
+
             if (!categoriesList) {
                 // CONSOLE 6: Si no se encuentra la lista de categorías, lo sabremos.
                 console.error("6. ERROR: No se encontró la lista de categorías para el idioma '" + lang + "'.", faqData);
@@ -157,8 +200,6 @@
             recommendationBox.textContent = text || '';
         }
 
-
-
         function populateQuestions(questions) {
             questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
             if (questions && questions.length > 0) {
@@ -170,25 +211,7 @@
                 });
             }
         }
-    </script>
-    <script type='text/javascript'>
-	function initEmbeddedMessaging() {
-		try {
-			embeddedservice_bootstrap.settings.language = 'es_MX'; // For example, enter 'en' or 'en-US'
+    </script>    
+</body>
 
-			embeddedservice_bootstrap.init(
-				'00DKj00000EAUqM',
-				'CBX',
-				'https://crossborderxpressmx.my.site.com/ESWCBX1762120341728',
-				{
-					scrt2URL: 'https://crossborderxpressmx.my.salesforce-scrt.com'
-				}
-			);
-		} catch (err) {
-			console.error('Error loading Embedded Messaging: ', err);
-		}
-	};
-</script>
-<script type='text/javascript' src='https://crossborderxpressmx.my.site.com/ESWCBX1762120341728/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
-    </body>
 </html>
