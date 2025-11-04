@@ -171,5 +171,24 @@
             }
         }
     </script>
+    <script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'es_MX'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00DKj00000EAUqM',
+				'CBX',
+				'https://crossborderxpressmx.my.site.com/ESWCBX1762120341728',
+				{
+					scrt2URL: 'https://crossborderxpressmx.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://crossborderxpressmx.my.site.com/ESWCBX1762120341728/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
     </body>
 </html>
