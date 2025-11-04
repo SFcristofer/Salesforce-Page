@@ -60,7 +60,7 @@
         method="POST">
 
                 <input type="hidden" name="orgid" value="00DKj00000EAUqM">
-                <input type="hidden" name="retURL" value="http://">
+                        <input type="hidden" name="retURL" value="http://">
 
                 <label for="name">Nombre del contacto:</label>
                 <input id="name" name="name" type="text" required><br>
@@ -200,6 +200,8 @@
             recommendationBox.textContent = text || '';
         }
 
+
+
         function populateQuestions(questions) {
             questionSelect.innerHTML = `<option value="">-- Selecciona una pregunta --</option>`;
             if (questions && questions.length > 0) {
@@ -211,7 +213,9 @@
                 });
             }
         }
-    </script>    
+    </script>
+
+           
 </body>
 
 </html>
